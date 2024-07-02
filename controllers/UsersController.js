@@ -1,7 +1,7 @@
 // controllers/UsersController.js
-import { db } from '../utils/db_client';
+import { db } from '../utils/db';
 import sha1 from 'sha1';
-import { redisClient } from '../utils/redis_client';
+import { redisClient } from '../utils/redis';
 
 class UsersController {
   static async postNew(req, res) {
