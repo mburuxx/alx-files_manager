@@ -2,6 +2,10 @@
 import { db } from '../utils/db';
 import sha1 from 'sha1';
 import { redisClient } from '../utils/redis';
+import Queue from 'bull';
+import { ObjectId } from 'mongodb';
+
+const userQueue = new Queue('email sending'); // Ensure the queue name matches the one in worker.js
 
 class UsersController {
   static async postNew(req, res) {
@@ -32,12 +36,15 @@ class UsersController {
       const result = await usersCollection.insertOne(newUser);
       const user = result.ops[0];
 
+      userQueue.add({ userId: user._id.toString() }); // Ensure userId is a string
+
       return res.status(201).json({ email: user.email, id: user._id });
     } catch (error) {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   }
-    static async getMe(req, res) {
+
+  static async getMe(req, res) {
     const token = req.headers['x-token'];
 
     if (!token) {
