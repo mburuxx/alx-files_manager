@@ -1,8 +1,9 @@
 // controllers/AuthController.js
+// controllers/AuthController.js
 import { v4 as uuidv4 } from 'uuid';
-import { redisClient } from '../utils/redis';
-import { db } from '../utils/db';
 import sha1 from 'sha1';
+import { redisClient } from '../utils/redis';
+import dbClient from '../utils/db';
 
 class AuthController {
   static async getConnect(req, res) {
@@ -16,7 +17,7 @@ class AuthController {
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
     const [email, password] = credentials.split(':');
 
-    const usersCollection = db.collection('users');
+    const usersCollection = dbClient.collection('users');
     const user = await usersCollection.findOne({ email, password: sha1(password) });
 
     if (!user) {
