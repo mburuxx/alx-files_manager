@@ -5,7 +5,7 @@ import { createClient } from 'redis';
  * Represents a Redis client.
  */
 class RedisClient {
-   // Creates a new RedisClient instance.
+  // Creates a new RedisClient instance.
   constructor() {
     this.client = createClient();
     this.isClientConnected = true;
@@ -44,8 +44,6 @@ class RedisClient {
       });
     });
   }
-    //return promisify(this.client.GET).bind(this.client)(key);
- // }
 
   /**
    * Stores a key and its value along with an expiration time.
