@@ -1,9 +1,10 @@
 // controllers/UsersController.js
-import { db } from '../utils/db';
-import sha1 from 'sha1';
-import { redisClient } from '../utils/redis';
-import Queue from 'bull';
 import { ObjectId } from 'mongodb';
+import sha1 from 'sha1';
+import Queue from 'bull';
+// import { dbClient as db } from '../utils/db';
+import dbClient from '../utils/db';
+import { redisClient } from '../utils/redis';
 
 const userQueue = new Queue('email sending'); // Ensure the queue name matches the one in worker.js
 
@@ -20,7 +21,7 @@ class UsersController {
     }
 
     try {
-      const usersCollection = db.collection('users');
+      const usersCollection = dbClient.collection('users');
       const existingUser = await usersCollection.findOne({ email });
 
       if (existingUser) {
@@ -59,7 +60,7 @@ class UsersController {
     }
 
     try {
-      const usersCollection = db.collection('users');
+      const usersCollection = dbClient.collection('users');
       const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
 
       if (!user) {
