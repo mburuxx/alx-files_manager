@@ -13,7 +13,10 @@ import { contentType } from 'mime-types';
 import mongoDBCore from 'mongodb/lib/core';
 import dbClient from '../utils/db';
 import { getUserFromXToken } from '../utils/auth';
+<<<<<<< HEAD
 import fileQueue from '../worker';
+=======
+>>>>>>> cb418fbaa753ffc6c010ccb342084b9f5e607bdc
 
 const VALID_FILE_TYPES = {
   folder: 'folder',
@@ -28,12 +31,6 @@ const statAsync = promisify(stat);
 const realpathAsync = promisify(realpath);
 const MAX_FILES_PER_PAGE = 20;
 const NULL_ID = Buffer.alloc(24, '0').toString('utf-8');
-
-/**
- * Checks if the provided ID is valid.
- * @param {string} id - The ID to validate.
- * @returns {boolean} True if the ID is valid, otherwise false.
- */
 const isValidId = (id) => {
   const size = 24;
   let i = 0;
@@ -139,11 +136,6 @@ export default class FilesController {
     });
   }
 
-  /**
-   * Retrieves a specific file by ID.
-   * @param {Request} req The Express request object.
-   * @param {Response} res The Express response object.
-   */
   static async getShow(req, res) {
     const { user } = req;
     const id = req.params ? req.params.id : NULL_ID;
@@ -211,11 +203,6 @@ export default class FilesController {
     res.status(200).json(files);
   }
 
-  /**
-   * Publishes a file.
-   * @param {Request} req The Express request object.
-   * @param {Response} res The Express response object.
-   */
   static async putPublish(req, res) {
     const { user } = req;
     const { id } = req.params;
@@ -245,11 +232,6 @@ export default class FilesController {
     });
   }
 
-  /**
-   * Unpublishes a file.
-   * @param {Request} req The Express request object.
-   * @param {Response} res The Express response object.
-   */
   static async putUnpublish(req, res) {
     const { user } = req;
     const { id } = req.params;

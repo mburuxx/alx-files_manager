@@ -1,9 +1,9 @@
 // server.js
 import express from 'express';
 import routes from './routes/index';
-
 // Load environment variables
 import envLoader from './utils/env_loader';
+
 envLoader();
 
 const app = express();
