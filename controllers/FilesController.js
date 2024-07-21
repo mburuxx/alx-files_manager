@@ -13,7 +13,7 @@ import { contentType } from 'mime-types';
 import mongoDBCore from 'mongodb/lib/core';
 import dbClient from '../utils/db';
 import { getUserFromXToken } from '../utils/auth';
-import fileQueue from '../workers/fileWorker';
+import fileQueue from '../worker';
 
 const VALID_FILE_TYPES = {
   folder: 'folder',
@@ -27,7 +27,6 @@ const writeFileAsync = promisify(writeFile);
 const statAsync = promisify(stat);
 const realpathAsync = promisify(realpath);
 const MAX_FILES_PER_PAGE = 20;
-const fileQueue = new Queue('thumbnail generation');
 const NULL_ID = Buffer.alloc(24, '0').toString('utf-8');
 
 /**
