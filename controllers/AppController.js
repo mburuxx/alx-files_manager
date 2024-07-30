@@ -1,30 +1,31 @@
-// controllers/AppController.js
-/* eslint-disable import/no-named-as-default */
 import redisClient from '../utils/redis';
 import dbClient from '../utils/db';
-/* eslint-enable import/no-named-as-default */
 
 class AppController {
   /**
-   * Returns the status of the Redis and MongoDB connections.
-   * @param {Request} req
-   * @param {Response} res
+   * should return if Redis is alive and if the DB is alive too
+   * by using the 2 utils created previously:
+   * { "redis": true, "db": true } with a status code 200
    */
-  static async getStatus(req, res) {
-    const redisAlive = redisClient.isAlive();
-    const dbAlive = dbClient.isAlive();
-    res.status(200).json({ redis: redisAlive, db: dbAlive });
+  static getStatus(request, response) {
+    const status = {
+      redis: redisClient.isAlive(),
+      db: dbClient.isAlive(),
+    };
+    response.status(200).send(status);
   }
 
   /**
-   * Returns the statistics of the number of users and files in the database.
-   * @param {Request} req
-   * @param {Response} res
+   * should return the number of users and files in DB:
+   * { "users": 12, "files": 1231 }
+   *  with a status code 200
    */
-  static async getStats(req, res) {
-    const usersCount = await dbClient.nbUsers();
-    const filesCount = await dbClient.nbFiles();
-    res.status(200).json({ users: usersCount, files: filesCount });
+  static async getStats(request, response) {
+    const stats = {
+      users: await dbClient.nbUsers(),
+      files: await dbClient.nbFiles(),
+    };
+    response.status(200).send(stats);
   }
 }
 
